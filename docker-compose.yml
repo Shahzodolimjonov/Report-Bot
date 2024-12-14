@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  bot:
+    build:
+      context: .
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - MAIN_CHAT_ID=${MAIN_CHAT_ID}
+      - CHANNEL_ID1=${CHANNEL_ID1}
+      - CHANNEL_ID2=${CHANNEL_ID2}
+      - CHAT_ID2=${CHAT_ID2}
+      - CHAT_ID3=${CHAT_ID3}
+      - CHAT_ID4=${CHAT_ID4}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:latest
+    container_name: postgres_bot
+    environment:
+      POSTGRES_USER: bot_user
+      POSTGRES_PASSWORD: bot_password
+      POSTGRES_DB: bot_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
